@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e-v=%wzf415xv2a600zqm18zb0^eevw+%=e4$6wpfwx!v$4@8v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost', 'my-leave-tracker.onrender.com']
 
 
 # Application definition
