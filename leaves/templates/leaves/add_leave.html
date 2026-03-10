@@ -1,0 +1,34 @@
+{% extends 'leaves/base.html' %}
+
+{% block content %}
+<header>
+    <h1>Record New Leave</h1>
+    <a href="{% url 'dashboard' %}" style="color: var(--primary); text-decoration: none;">&larr; Back to Dashboard</a>
+</header>
+
+<div class="card" style="max-width: 500px; margin: 0 auto; width: 100%; box-sizing: border-box;">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="start_date">Start Date</label>
+            <input type="date" id="start_date" name="start_date" onclick="this.showPicker()" required>
+        </div>
+        <div class="form-group">
+            <label for="end_date">End Date</label>
+            <input type="date" id="end_date" name="end_date" onclick="this.showPicker()" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="TAKEN">Taken</option>
+                <option value="PLANNED">Planned/Advance</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="remarks">Remarks</label>
+            <textarea id="remarks" name="remarks" rows="3" placeholder="Optional notes..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Save Leave</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'leaves/base.html' %}
+
+{% block content %}
+<header>
+    <h1>Leave Tracker</h1>
+    <a href="{% url 'add_leave' %}" class="btn btn-primary">Add Leave</a>
+</header>
+
+<div class="summary-grid">
+    <div class="summary-item">
+        <div class="summary-label">Accrued (since Oct 2025)</div>
+        <div class="summary-value">{{ summary.accrued }}</div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-label">Taken</div>
+        <div class="summary-value">{{ summary.used }}</div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-label">Planned</div>
+        <div class="summary-value">{{ summary.planned }}</div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-label">Remaining</div>
+        <div class="summary-value">{{ summary.balance }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="margin-top:0">Leave History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Range</th>
+                <th>Days</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave in summary.history %}
+            <tr>
+                <td>{{ leave.start_date }} to {{ leave.end_date }}</td>
+                <td>{{ leave.days_count }}</td>
+                <td>
+                    <span class="badge"
+                        style="background: {% if leave.status == 'PLANNED' %}#3b82f6{% else %}#10b981{% endif %};">
+                        {{ leave.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ leave.remarks|default:"-" }}</td>
+                <td><a href="{% url 'edit_leave' leave.pk %}"
+                        style="color: var(--primary); text-decoration: none;">Edit</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center; color: var(--text-muted)">No leaves recorded yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
