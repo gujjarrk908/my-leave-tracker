@@ -12,9 +12,9 @@
 </header>
 
 <div class="card" style="margin-bottom: 32px;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="nav-row">
         <a href="{% url 'login_history_filtered' prev_year prev_month %}" class="btn btn-secondary">&larr; Previous</a>
-        <h2 style="margin: 0; font-size: 1.5rem; color: #a5b4fc;">{{ current_month|date:"F Y" }}</h2>
+        <h2 style="margin: 0; color: #a5b4fc;">{{ current_month|date:"F Y" }}</h2>
         <a href="{% url 'login_history_filtered' next_year next_month %}" class="btn btn-secondary">Next &rarr;</a>
     </div>
 </div>
