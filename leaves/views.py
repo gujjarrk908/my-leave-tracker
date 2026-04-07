@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Leave, get_leave_summary, OfficeLogin
 from django.contrib import messages
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import FileResponse, Http404
+from django.conf import settings
+import os
 
 @login_required
 def dashboard(request):

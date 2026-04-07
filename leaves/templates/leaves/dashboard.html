@@ -4,6 +4,9 @@
 <header>
     <h1>Leave Tracker</h1>
     <div style="display: flex; gap: 10px;">
+        {% if user.is_superuser %}
+        <a href="{% url 'download_db' %}" class="btn btn-secondary" style="border-color: var(--primary); color: var(--primary);">Download DB</a>
+        {% endif %}
         <a href="{% url 'login_history' %}" class="btn btn-secondary">History</a>
         <a href="{% url 'log_login' %}" class="btn btn-secondary">Log Login</a>
         <a href="{% url 'add_leave' %}" class="btn btn-primary">Add Leave</a>
