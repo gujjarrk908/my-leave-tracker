@@ -168,10 +168,4 @@ def login_history(request, year=None, month=None):
         'month': month
     })
 
-@user_passes_test(lambda u: u.is_superuser)
-def download_db(request):
-    db_path = settings.DATABASES['default']['NAME']
-    if os.path.exists(db_path):
-        response = FileResponse(open(db_path, 'rb'), as_attachment=True, filename='db.sqlite3')
-        return response
-    raise Http404("Database file not found.")
+
