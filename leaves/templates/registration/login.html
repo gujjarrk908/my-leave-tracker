@@ -7,7 +7,13 @@
         
         {% if form.errors %}
         <div class="alert alert-error">
-            Your username and password didn't match. Please try again.
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p style="margin: 0;">{{ error }}</p>
+                {% endfor %}
+            {% else %}
+                <p style="margin: 0;">Your username and password didn't match. Please try again.</p>
+            {% endif %}
         </div>
         {% endif %}
 

@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from leaves.forms import StrictAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(authentication_form=StrictAuthenticationForm), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('leaves.urls')),
 ]
 
-from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
