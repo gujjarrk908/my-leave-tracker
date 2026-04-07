@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Leave, get_leave_summary, OfficeLogin
 from django.contrib import messages
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def dashboard(request):
     summary = get_leave_summary()
     return render(request, 'leaves/dashboard.html', {'summary': summary})
 
+@login_required
 def add_leave(request):
     if request.method == 'POST':
         start_date_str = request.POST.get('start_date')
@@ -45,6 +48,7 @@ def add_leave(request):
 
     return render(request, 'leaves/add_leave.html')
 
+@login_required
 def edit_leave(request, pk):
     leave = get_object_or_404(Leave, pk=pk)
     
@@ -79,6 +83,7 @@ def edit_leave(request, pk):
 
     return render(request, 'leaves/edit_leave.html', {'leave': leave})
 
+@login_required
 def log_login(request):
     today = datetime.now().date()
     # Default to today if no date is provided
@@ -118,6 +123,7 @@ def log_login(request):
         'today': today
     })
 
+@login_required
 def login_history(request, year=None, month=None):
     now = datetime.now()
     if year is None:
