@@ -22,3 +22,16 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('leaves.urls')),
 ]
+
+from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
+
+try:
+    # This creates the user as soon as the app performs its first URL check
+    User.objects.create_superuser('admin', 'admin@admin.com', 'admin')
+    print("Superuser created successfully!")
+except IntegrityError:
+    # This happens if the user already exists
+    pass
+except Exception as e:
+    print(f"Superuser creation failed: {e}")
