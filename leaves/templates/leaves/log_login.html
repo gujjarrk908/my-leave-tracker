@@ -13,16 +13,14 @@
         {% csrf_token %}
         <div class="form-group mb-6">
             <label for="date" class="mb-4" style="color: var(--text-muted); display: block;">Date</label>
-            <input type="date" name="date" id="date" required
-                value="{{ target_date|date:'Y-m-d' }}"
-                onclick="this.showPicker()">
+            <input type="date" name="date" id="date" required onclick="this.showPicker()"
+                value="{{ target_date|date:'Y-m-d' }}">
         </div>
         
         <div class="form-group mb-6">
             <label for="login_time" class="mb-4" style="color: var(--text-muted); display: block;">Login Time (HH:MM)</label>
-            <input type="time" name="login_time" id="login_time" required
-                value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}"
-                onclick="this.showPicker()">
+            <input type="time" name="login_time" id="login_time" required onclick="this.showPicker()"
+                value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}">
         </div>
 
         <button type="submit" class="btn btn-primary w-full">

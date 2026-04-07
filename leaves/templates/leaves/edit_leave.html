@@ -11,13 +11,11 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="start_date">Start Date</label>
-            <input type="date" id="start_date" name="start_date" value="{{ leave.start_date|date:'Y-m-d' }}"
-                onclick="this.showPicker()" required>
+            <input type="date" id="start_date" name="start_date" value="{{ leave.start_date|date:'Y-m-d' }}" required onclick="this.showPicker()">
         </div>
         <div class="form-group">
             <label for="end_date">End Date</label>
-            <input type="date" id="end_date" name="end_date" value="{{ leave.end_date|date:'Y-m-d' }}"
-                onclick="this.showPicker()" required>
+            <input type="date" id="end_date" name="end_date" value="{{ leave.end_date|date:'Y-m-d' }}" required onclick="this.showPicker()">
         </div>
         <div class="form-group">
             <label for="status">Status</label>

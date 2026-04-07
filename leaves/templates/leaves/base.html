@@ -195,8 +195,15 @@
 
         input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
             cursor: pointer;
+            filter: invert(1);
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover,
+        input[type="time"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         input:focus,
@@ -313,6 +320,50 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Loader styles */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #global-loader.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -320,7 +371,7 @@
     <div class="container">
         {% if user.is_authenticated %}
         <div style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
-            <span style="color: var(--text-muted);">Welcome, <strong>{{ user.username }}</strong></span>
+            <span style="color: var(--text-muted);">Welcome, <strong>{{ user.get_full_name|default:user.username }}</strong></span>
             <form method="post" action="{% url 'logout' %}" style="margin: 0;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;">Logout</button>
@@ -338,6 +389,25 @@
 
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Global Loader -->
+    <div id="global-loader">
+        <div class="spinner"></div>
+        <div class="loader-text">Processing...</div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const forms = document.querySelectorAll("form");
+            forms.forEach(function(form) {
+                form.addEventListener("submit", function() {
+                    // Trigger loader whenever a database mutation starts
+                    document.getElementById("global-loader").classList.add("show");
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
