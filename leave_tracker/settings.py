@@ -26,13 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e-v=%wzf415xv2a600zqm18zb0^eevw+%=e4$6wpfwx!v$4@8v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # Set to False for production!
 
-ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost']
-
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS = ['my-leave-tracker.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -144,10 +140,7 @@ SESSION_COOKIE_AGE = 86400  # 1 day in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Production Security Settings
-if not DEBUG or RENDER_EXTERNAL_HOSTNAME:
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    
-    if RENDER_EXTERNAL_HOSTNAME:
-        CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['https://my-leave-tracker.onrender.com']
