@@ -1,12 +1,12 @@
 {% extends 'leaves/base.html' %}
 
 {% block content %}
-<header>
-    <h1>Record New Leave</h1>
-    <a href="{% url 'dashboard' %}" style="color: var(--primary); text-decoration: none;">&larr; Back to Dashboard</a>
-</header>
-
 <div class="card form-container">
+    <h2 class="text-center mb-6 font-bold"
+        style="font-size: 1.5rem; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        Record New Leave
+    </h2>
+
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">
@@ -28,9 +28,9 @@
             <label for="remarks">Remarks</label>
             <textarea id="remarks" name="remarks" rows="3" placeholder="Optional notes..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%">Save Leave</button>
-        <div style="margin-top: 15px;">
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary" style="width:100%">Cancel</a>
+        <button type="submit" class="btn btn-primary w-full mt-4">Save Leave</button>
+        <div class="mt-4">
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary w-full">Cancel</a>
         </div>
     </form>
 </div>
