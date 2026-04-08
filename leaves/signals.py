@@ -8,16 +8,23 @@ from django.contrib.sessions.models import Session
 def manage_user_session(sender, request, user, **kwargs):
     # Proactively logout other sessions for this user (Auto-Logout)
     try:
-        previous_session = UserSession.objects.get(user=user)
-        Session.objects.filter(session_key=previous_session.session_key).delete()
-    except UserSession.DoesNotExist:
-        pass
+        # Wrap everything in a try-except to ensure login NEVER fails 
+        # even if there are database issues with UserSession
+        try:
+            previous_session = UserSession.objects.get(user=user)
+            Session.objects.filter(session_key=previous_session.session_key).delete()
+        except (UserSession.DoesNotExist, Exception):
+            pass
 
-    # Store the new session key
-    UserSession.objects.update_or_create(
-        user=user,
-        defaults={'session_key': request.session.session_key}
-    )
+        # Store the new session key
+        UserSession.objects.update_or_create(
+            user=user,
+            defaults={'session_key': request.session.session_key}
+        )
+    except Exception:
+        # If anything fails here (e.g. table doesn't exist), just continue 
+        # to allow the user to log in normally.
+        pass
 
 @receiver(user_logged_out)
 def clear_user_session(sender, request, user, **kwargs):

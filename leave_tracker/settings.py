@@ -142,3 +142,12 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 # Session settings for better security and one-session-per-user coordination
 SESSION_COOKIE_AGE = 86400  # 1 day in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Production Security Settings
+if not DEBUG or RENDER_EXTERNAL_HOSTNAME:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    if RENDER_EXTERNAL_HOSTNAME:
+        CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
