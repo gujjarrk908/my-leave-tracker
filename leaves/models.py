@@ -43,6 +43,22 @@ class OfficeLogin(models.Model):
         from datetime import time
         return self.login_time > time(10, 30)
 
+    @property
+    def expected_logoff(self):
+        from datetime import datetime, timedelta
+        
+        # Combine date and login_time to handle arithmetic
+        full_login_time = datetime.combine(self.date, self.login_time)
+        
+        # Determine duration based on day of week (0=Mon, 3=Thu, 4=Fri)
+        weekday = self.date.weekday()
+        if weekday <= 3:
+            duration = timedelta(hours=7, minutes=45)
+        else:
+            duration = timedelta(hours=8)
+            
+        return (full_login_time + duration).time()
+
 
 def get_total_accrued():
     start_accrual = date(2025, 10, 1)

@@ -23,6 +23,12 @@
                 value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}">
         </div>
 
+        <div id="logoff_container" style="display: none; margin-top: 1.5rem; padding: 1.25rem; border-radius: var(--radius-md); background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
+            <p style="font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.25rem;">Expected Log-off Time</p>
+            <p id="expected_logoff" style="font-size: 1.875rem; font-weight: 700; color: #6366f1; margin: 0;">--:--</p>
+            <p id="duration_note" style="font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-top: 0.25rem;"></p>
+        </div>
+
         <button type="submit" class="btn btn-primary w-full mt-4">
             {% if login_entry %}Update Login Time{% else %}Record Login Time{% endif %}
         </button>
@@ -34,4 +40,57 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date');
+        const loginTimeInput = document.getElementById('login_time');
+        const logoffContainer = document.getElementById('logoff_container');
+        const expectedLogoff = document.getElementById('expected_logoff');
+        const durationNote = document.getElementById('duration_note');
+
+        function calculateLogoff() {
+            const dateVal = dateInput.value;
+            const timeVal = loginTimeInput.value;
+
+            if (!dateVal || !timeVal) {
+                logoffContainer.style.display = 'none';
+                return;
+            }
+
+            const [hours, minutes] = timeVal.split(':').map(Number);
+            const date = new Date(dateVal);
+            const dayOfWeek = date.getUTCDay(); // 0 is Sunday, 1 is Monday, ..., 5 is Friday
+
+            let durationMinutes = 8 * 60; // Default 8 hours (Friday and weekends)
+            let note = "Requirement: 8 hours (Friday/Weekend)";
+
+            if (dayOfWeek >= 1 && dayOfWeek <= 4) {
+                durationMinutes = 7 * 60 + 45; // 7h 45m (Mon-Thu)
+                note = "Requirement: 7 hours 45 minutes (Mon-Thu)";
+            } else if (dayOfWeek === 5) {
+                durationMinutes = 8 * 60; // 8h (Friday)
+                note = "Requirement: 8 hours (Friday)";
+            }
+
+            const totalMinutes = hours * 60 + minutes + durationMinutes;
+            const logoffHours = Math.floor(totalMinutes / 60) % 24;
+            const logoffMinutes = totalMinutes % 60;
+
+            const formattedTime = `${String(logoffHours).padStart(2, '0')}:${String(logoffMinutes).padStart(2, '0')}`;
+            
+            expectedLogoff.textContent = formattedTime;
+            durationNote.textContent = note;
+            logoffContainer.style.display = 'block';
+        }
+
+        dateInput.addEventListener('change', calculateLogoff);
+        loginTimeInput.addEventListener('input', calculateLogoff);
+
+        // Initial calculation
+        calculateLogoff();
+    });
+</script>
 {% endblock %}
