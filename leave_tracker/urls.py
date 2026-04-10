@@ -21,8 +21,10 @@ from leaves.forms import StrictAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.LoginView.as_view(authentication_form=StrictAuthenticationForm), name='login'),
+    path('accounts/login/', auth_views.LoginView.as_view(
+        authentication_form=StrictAuthenticationForm,
+        redirect_authenticated_user=True
+    ), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('leaves.urls')),
 ]
-
