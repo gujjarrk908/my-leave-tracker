@@ -11,22 +11,24 @@
 
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="date" style="color: var(--text-muted);">Date</label>
-            <input type="date" name="date" id="date" required onclick="this.showPicker()"
-                value="{{ target_date|date:'Y-m-d' }}">
-        </div>
-        
-        <div class="form-group">
-            <label for="login_time" style="color: var(--text-muted);">Login Time (HH:MM)</label>
-            <input type="time" name="login_time" id="login_time" required onclick="this.showPicker()"
-                value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" required onclick="this.showPicker()"
+                    value="{{ target_date|date:'Y-m-d' }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="login_time">Login Time (HH:MM)</label>
+                <input type="time" name="login_time" id="login_time" required onclick="this.showPicker()"
+                    value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}">
+            </div>
         </div>
 
-        <div id="logoff_container" style="display: none; margin-top: 1.5rem; padding: 1.25rem; border-radius: var(--radius-md); background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
-            <p style="font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.25rem;">Expected Log-off Time</p>
-            <p id="expected_logoff" style="font-size: 1.875rem; font-weight: 700; color: #6366f1; margin: 0;">--:--</p>
-            <p id="duration_note" style="font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-top: 0.25rem;"></p>
+        <div id="logoff_container" style="display: none; margin-top: 1rem; padding: 1.25rem; border-radius: var(--radius-md); background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); text-align: center;">
+            <p style="font-size: 0.875rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.025em;">Expected Log-off</p>
+            <p id="expected_logoff" style="font-size: 2.25rem; font-weight: 800; color: #818cf8; margin: 0; line-height: 1;">--:--</p>
+            <p id="duration_note" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; font-weight: 500;"></p>
         </div>
 
         <button type="submit" class="btn btn-primary w-full mt-4">
