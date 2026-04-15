@@ -15,35 +15,35 @@
             {% csrf_token %}
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-1">
-                    <label for="start_date" class="form-label">Start Date</label>
+                <div class="space-y-3">
+                    <label for="start_date" class="form-label px-1">Start Date</label>
                     <input type="date" id="start_date" name="start_date" required onclick="this.showPicker()"
                            class="form-input">
                 </div>
-                <div class="space-y-1">
-                    <label for="end_date" class="form-label">End Date</label>
+                <div class="space-y-3">
+                    <label for="end_date" class="form-label px-1">End Date</label>
                     <input type="date" id="end_date" name="end_date" required onclick="this.showPicker()"
                            class="form-input">
                 </div>
             </div>
 
-            <div class="space-y-1">
-                <label for="status" class="form-label">Leave Status</label>
+            <div class="space-y-3">
+                <label for="status" class="form-label px-1">Leave Status</label>
                 <div class="relative">
                     <select id="status" name="status" 
-                            class="form-input appearance-none">
+                            class="form-input">
                         <option value="TAKEN" class="bg-slate-900">Taken</option>
                         <option value="PLANNED" class="bg-slate-900">Planned / Advance</option>
                     </select>
-                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                    <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none">
                         <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-1">
-                <label for="remarks" class="form-label">Remarks (Optional)</label>
-                <textarea id="remarks" name="remarks" rows="3" placeholder="Additional details about your leave..."
+            <div class="space-y-3">
+                <label for="remarks" class="form-label px-1">Remarks (Optional)</label>
+                <textarea id="remarks" name="remarks" rows="3" placeholder="Additional details..."
                           class="form-input h-auto resize-none"></textarea>
             </div>
 
