@@ -187,6 +187,7 @@
         flex: 1 1 0;
         min-width: 0;
         max-width: 100%;
+        overflow: visible;
     }
 
     @media (min-width: 768px) {
@@ -222,6 +223,7 @@
         line-height: 1.5;
         display: block;
         transition: var(--transition);
+        padding-right: 36px;
     }
 
     /* ✅ SELECT FIX */
@@ -241,6 +243,7 @@
     input[type="time"] {
         min-width: 0;
         width: 100%;
+        padding-right: 8px;
     }
 
     /* keep picker styling */
@@ -270,11 +273,8 @@
         max-width: 500px;
         margin: 0 auto;
         width: 100%;
-        padding: 0 12px;
-    }
-    .form-container,
-    .form-row {
-        overflow-x: hidden; /* 🔥 prevents right overflow */
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     /* Utilities */
