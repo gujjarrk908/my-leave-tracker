@@ -177,19 +177,22 @@
         }
 
         .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 1.25rem;
             margin-bottom: 1.25rem;
         }
 
-        @media (max-width: 500px) {
+        .form-row > .form-group {
+            margin-bottom: 0; /* Remove bottom margin inside flex container because gap handles it */
+            flex: 1;
+            min-width: 250px; /* Force wrap if container is too small to fit both side-by-side safely */
+        }
+
+        /* Only place them side-by-side if there is plenty of room */
+        @media (min-width: 600px) {
             .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            .form-row > .form-group {
-                margin-bottom: 1.25rem;
+                flex-direction: row;
             }
         }
 
