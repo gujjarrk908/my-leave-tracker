@@ -1,39 +1,57 @@
 {% extends 'leaves/base.html' %}
 
 {% block content %}
-<div class="card form-container">
-    <h2 class="text-center mb-6 font-bold"
-        style="font-size: 1.5rem; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-        Edit Leave
-    </h2>
+<div class="max-w-2xl mx-auto py-6">
+    <div class="card relative overflow-hidden">
+        <!-- Accent bar -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500"></div>
+        
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-black text-slate-100 italic tracking-tight mb-2 uppercase">Edit Leave</h2>
+            <p class="text-muted font-medium text-sm">Update the details of your previous leave record</p>
+        </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-row">
-            <div class="form-group">
-                <label for="start_date">Start Date</label>
-                <input type="date" id="start_date" name="start_date" value="{{ leave.start_date|date:'Y-m-d' }}" required onclick="this.showPicker()">
+        <form method="POST" class="space-y-8">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label for="start_date" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" value="{{ leave.start_date|date:'Y-m-d' }}" required onclick="this.showPicker()"
+                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium">
+                </div>
+                <div class="space-y-2">
+                    <label for="end_date" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">End Date</label>
+                    <input type="date" id="end_date" name="end_date" value="{{ leave.end_date|date:'Y-m-d' }}" required onclick="this.showPicker()"
+                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="end_date">End Date</label>
-                <input type="date" id="end_date" name="end_date" value="{{ leave.end_date|date:'Y-m-d' }}" required onclick="this.showPicker()">
+
+            <div class="space-y-2">
+                <label for="status" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Leave Status</label>
+                <div class="relative">
+                    <select id="status" name="status" 
+                            class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium appearance-none">
+                        <option value="TAKEN" {% if leave.status == 'TAKEN' %}selected{% endif %} class="bg-slate-900">Taken</option>
+                        <option value="PLANNED" {% if leave.status == 'PLANNED' %}selected{% endif %} class="bg-slate-900">Planned / Advance</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" name="status">
-                <option value="TAKEN" {% if leave.status == 'TAKEN' %}selected{% endif %}>Taken</option>
-                <option value="PLANNED" {% if leave.status == 'PLANNED' %}selected{% endif %}>Planned/Advance</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="remarks">Remarks</label>
-            <textarea id="remarks" name="remarks" rows="3">{{ leave.remarks }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary w-full mt-4">Update Leave</button>
-        <div class="mt-4">
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary w-full">Go Back</a>
-        </div>
-    </form>
+
+            <div class="space-y-2">
+                <label for="remarks" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Remarks (Optional)</label>
+                <textarea id="remarks" name="remarks" rows="3"
+                          class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium resize-none">{{ leave.remarks }}</textarea>
+            </div>
+
+            <div class="pt-4 flex flex-col gap-4">
+                <button type="submit" class="btn btn-primary w-full py-4 font-black uppercase tracking-widest italic shadow-amber-500/10 hover:shadow-amber-500/20">Update Leave Record</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary w-full py-4 font-bold">Discard Changes</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
