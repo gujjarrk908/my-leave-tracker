@@ -15,23 +15,23 @@
             {% csrf_token %}
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label for="start_date" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Start Date</label>
+                <div class="space-y-1">
+                    <label for="start_date" class="form-label">Start Date</label>
                     <input type="date" id="start_date" name="start_date" required onclick="this.showPicker()"
-                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium">
+                           class="form-input">
                 </div>
-                <div class="space-y-2">
-                    <label for="end_date" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">End Date</label>
+                <div class="space-y-1">
+                    <label for="end_date" class="form-label">End Date</label>
                     <input type="date" id="end_date" name="end_date" required onclick="this.showPicker()"
-                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium">
+                           class="form-input">
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <label for="status" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Leave Status</label>
+            <div class="space-y-1">
+                <label for="status" class="form-label">Leave Status</label>
                 <div class="relative">
                     <select id="status" name="status" 
-                            class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium appearance-none">
+                            class="form-input appearance-none">
                         <option value="TAKEN" class="bg-slate-900">Taken</option>
                         <option value="PLANNED" class="bg-slate-900">Planned / Advance</option>
                     </select>
@@ -41,10 +41,10 @@
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <label for="remarks" class="text-xs font-bold uppercase tracking-[0.2em] text-muted">Remarks (Optional)</label>
+            <div class="space-y-1">
+                <label for="remarks" class="form-label">Remarks (Optional)</label>
                 <textarea id="remarks" name="remarks" rows="3" placeholder="Additional details about your leave..."
-                          class="w-full bg-slate-900 border border-border text-slate-100 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-medium resize-none"></textarea>
+                          class="form-input h-auto resize-none"></textarea>
             </div>
 
             <div class="pt-4 flex flex-col gap-4">

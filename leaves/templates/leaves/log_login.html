@@ -16,24 +16,42 @@
         <form method="POST" class="space-y-8 relative">
             {% csrf_token %}
             
-            <div class="space-y-2">
-                <label for="date" class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500 ml-1">Selection Date</label>
+            <div class="space-y-1">
+                <label for="date" class="form-label">Selection Date</label>
                 <div class="relative">
                     <input type="date" name="date" id="date" required onclick="this.showPicker()"
                            value="{{ target_date|date:'Y-m-d' }}"
-                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-bold">
+                           class="form-input">
                 </div>
             </div>
             
-            <div class="space-y-2">
+            <div class="space-y-1">
                 <div class="flex justify-between items-center ml-1">
-                    <label for="login_time" class="text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">Arrival Time (24h)</label>
+                    <label for="login_time" class="form-label mb-0">Arrival Time (24h)</label>
                     <span class="text-[10px] font-bold text-indigo-400/80 tracking-widest uppercase bg-indigo-500/5 px-2 py-0.5 rounded-md border border-indigo-500/10">HH:MM</span>
                 </div>
                 <div class="relative">
                     <input type="time" name="login_time" id="login_time" required onclick="this.showPicker()"
                            value="{% if login_entry %}{{ login_entry.login_time|time:'H:i' }}{% endif %}"
-                           class="w-full bg-slate-900 border border-border text-slate-100 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-mono font-bold text-lg">
+                           class="form-input font-mono text-lg">
+                </div>
+            </div>
+
+            <!-- Expected Log-off Section -->
+            <div id="logoff-section" class="{% if not login_entry %}hidden{% endif %} animate-in fade-in slide-in-from-top-2 duration-500">
+                <div class="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-5 flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400">Expected Log-off</p>
+                            <span id="shift-badge" class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold uppercase tracking-tighter"></span>
+                        </div>
+                        <p id="logoff-time" class="text-2xl font-black text-slate-100 italic">
+                            {% if login_entry %}{{ login_entry.expected_logoff|time:'h:i A' }}{% endif %}
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
                 </div>
             </div>
 
@@ -55,4 +73,65 @@
         <div class="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginTimeInput = document.getElementById('login_time');
+        const dateInput = document.getElementById('date');
+        const logoffTimeDisplay = document.getElementById('logoff-time');
+        const logoffSection = document.getElementById('logoff-section');
+        const shiftBadge = document.getElementById('shift-badge');
+
+        function updateLogoff() {
+            const timeVal = loginTimeInput.value;
+            const dateVal = dateInput.value;
+
+            if (timeVal && dateVal) {
+                const [hours, minutes] = timeVal.split(':').map(Number);
+                
+                // Parse date correctly considering timezone
+                const dateParts = dateVal.split('-').map(Number);
+                const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                
+                // weekday: 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
+                const dayOfWeek = dateObj.getDay();
+                
+                let durationMinutes;
+                let shiftLabel;
+                // rule: Mon-Thu (1-4) is 7h 45m; Fri (5) is 8h
+                if (dayOfWeek >= 1 && dayOfWeek <= 4) {
+                    durationMinutes = (7 * 60) + 45;
+                    shiftLabel = "7h 45m shift";
+                } else {
+                    durationMinutes = 8 * 60;
+                    shiftLabel = dayOfWeek === 5 ? "8h Fri shift" : "8h shift";
+                }
+
+                const totalMinutes = (hours * 60) + minutes + durationMinutes;
+                const rawHours = Math.floor(totalMinutes / 60) % 24;
+                const finalMinutes = totalMinutes % 60;
+
+                // Convert to 12-hour format
+                const finalHours = rawHours % 12 || 12;
+                const ampm = rawHours >= 12 ? 'PM' : 'AM';
+
+                const formattedTime = 
+                    String(finalHours).padStart(2, '0') + ':' + 
+                    String(finalMinutes).padStart(2, '0') + ' ' + ampm;
+
+                logoffTimeDisplay.textContent = formattedTime;
+                shiftBadge.textContent = shiftLabel;
+                logoffSection.classList.remove('hidden');
+            }
+        }
+
+        loginTimeInput.addEventListener('input', updateLogoff);
+        dateInput.addEventListener('change', updateLogoff);
+        
+        // Initial trigger
+        if(loginTimeInput.value) updateLogoff();
+    });
+</script>
 {% endblock %}

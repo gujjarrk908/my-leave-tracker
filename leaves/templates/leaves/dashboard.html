@@ -19,14 +19,14 @@
         <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2">Accrued</span>
         <span class="text-3xl font-bold tracking-tight text-indigo-400">{{ summary.accrued }}</span>
     </div>
-    <div class="card flex flex-col items-center justify-center py-5">
-        <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2 text-emerald-500">Taken</span>
-        <span class="text-3xl font-bold tracking-tight text-emerald-400">{{ summary.used }}</span>
-    </div>
-    <div class="card flex flex-col items-center justify-center py-5">
-        <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2 text-sky-500">Planned</span>
-        <span class="text-3xl font-bold tracking-tight text-sky-400">{{ summary.planned }}</span>
-    </div>
+    <a href="{% url 'leave_history' %}" class="card flex flex-col items-center justify-center py-5 transition-all hover:bg-slate-800/80 hover:scale-[1.02] active:scale-95 group">
+        <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2 text-emerald-500 group-hover:text-emerald-400">Taken</span>
+        <span class="text-3xl font-bold tracking-tight text-emerald-400 group-hover:text-emerald-300">{{ summary.used }}</span>
+    </a>
+    <a href="{% url 'leave_history' %}" class="card flex flex-col items-center justify-center py-5 transition-all hover:bg-slate-800/80 hover:scale-[1.02] active:scale-95 group">
+        <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2 text-sky-500 group-hover:text-sky-400">Planned</span>
+        <span class="text-3xl font-bold tracking-tight text-sky-400 group-hover:text-sky-300">{{ summary.planned }}</span>
+    </a>
     <div class="card flex flex-col items-center justify-center py-5">
         <span class="text-xs font-bold text-muted uppercase tracking-wider mb-2 text-amber-500">Remaining</span>
         <span class="text-3xl font-bold tracking-tight text-amber-400">{{ summary.balance }}</span>
@@ -80,52 +80,6 @@
     </div>
 </div>
 
-<div class="bg-card border border-border rounded-2xl overflow-hidden shadow-2xl">
-    <div class="px-6 py-5 border-b border-border bg-slate-800/20">
-        <h2 class="font-bold text-slate-100 flex items-center gap-2">
-            Leave History
-        </h2>
-    </div>
-    <div class="overflow-x-auto">
-        <table class="w-full text-left">
-            <thead>
-                <tr class="bg-slate-900/50 text-[10px] uppercase tracking-[0.1em] font-bold text-muted">
-                    <th class="px-6 py-4">Range</th>
-                    <th class="px-6 py-4 text-center">Days</th>
-                    <th class="px-6 py-4">Status</th>
-                    <th class="px-6 py-4">Remarks</th>
-                    <th class="px-6 py-4 text-right">Action</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-                {% for leave in summary.history %}
-                <tr class="hover:bg-slate-800/30 transition-colors">
-                    <td class="px-6 py-4">
-                        <div class="font-medium text-slate-100 text-sm whitespace-nowrap">{{ leave.start_date }} &rarr; {{ leave.end_date }}</div>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="bg-slate-800 px-3 py-1 rounded-full text-xs font-bold text-slate-300 border border-border">{{ leave.days_count }}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider
-                            {% if leave.status == 'PLANNED' %}bg-sky-500/10 text-sky-400 border border-sky-500/20{% else %}bg-emerald-500/10 text-emerald-400 border border-emerald-500/20{% endif %}">
-                            {{ leave.get_status_display }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-muted text-xs truncate max-w-[150px]">{{ leave.remarks|default:"-" }}</td>
-                    <td class="px-6 py-4 text-right text-sm">
-                        <a href="{% url 'edit_leave' leave.pk %}" class="text-indigo-400 hover:text-indigo-300 font-bold">Edit</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="px-6 py-12 text-center text-muted italic text-sm">No leaves recorded yet.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <style>
     @keyframes pulse-slow {

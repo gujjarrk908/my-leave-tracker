@@ -167,5 +167,7 @@ def login_history(request, year=None, month=None):
         'year': year,
         'month': month
     })
-
-
+@login_required
+def leave_history(request):
+    leaves = Leave.objects.all().order_by('-start_date')
+    return render(request, 'leaves/leave_history.html', {'leaves': leaves})
