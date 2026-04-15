@@ -186,7 +186,7 @@
     .form-row > .form-group {
         flex: 1 1 0;
         min-width: 0;
-        width: 100%;
+        max-width: 100%;
     }
 
     @media (min-width: 768px) {
@@ -271,6 +271,10 @@
         margin: 0 auto;
         width: 100%;
         padding: 0 12px;
+    }
+    .form-container,
+    .form-row {
+        overflow-x: hidden; /* 🔥 prevents right overflow */
     }
 
     /* Utilities */
