@@ -1,115 +1,249 @@
-<style>
-:root {
-    --primary: #818cf8;
-    --primary-hover: #a5b4fc;
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --success: #10b981;
-    --error: #ef4444;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Leave Tracker{% endblock %}</title>
 
-/* ✅ GLOBAL FIX */
-* {
-    box-sizing: border-box;
-    max-width: 100%;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-html, body {
-    overflow-x: hidden;
-    width: 100%;
-}
+    <style>
+        :root {
+            --primary: #818cf8;
+            --primary-hover: #a5b4fc;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --error: #ef4444;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s ease;
+        }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg);
-    color: var(--text-main);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-}
+        /* GLOBAL FIX */
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
 
-/* ✅ CONTAINER FIX */
-.form-container {
-    max-width: 500px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 0 12px;
-}
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
 
-/* ✅ FORM ROW FIX */
-.form-row {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin-bottom: 1.25rem;
-    width: 100%;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
 
-/* ✅ CRITICAL FIX */
-.form-row > .form-group {
-    flex: 1 1 0;
-    min-width: 0;  /* 🔥 prevents overflow */
-    width: 100%;
-}
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            width: 100%;
+        }
 
-/* ✅ RESPONSIVE FIX */
-@media (min-width: 640px) {
-    .form-row {
-        flex-direction: row;
-    }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
 
-    .form-row > .form-group {
-        width: 50%;
-    }
-}
+        h1, h2 {
+            margin: 0;
+        }
 
-/* INPUT FIX */
-input,
-select,
-textarea {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    background-color: #0f172a;
-    color: var(--text-main);
-    font-size: 15px;
-    line-height: 1.5;
-    display: block;
-    transition: var(--transition);
-}
+        .text-center {
+            text-align: center;
+        }
 
-/* SELECT FIX */
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 40px; /* 🔥 reduced */
-    height: 48px;
-}
+        .font-bold {
+            font-weight: 700;
+        }
 
-/* DATE/TIME FIX */
-input[type="date"],
-input[type="time"] {
-    height: 48px;
-}
+        .mb-6 { margin-bottom: 24px; }
+        .mt-4 { margin-top: 16px; }
 
-/* iOS ZOOM FIX */
-@media (max-width: 480px) {
-    input, select {
-        font-size: 16px;
-    }
-}
-</style>
+        /* FORM CONTAINER */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 12px;
+        }
+
+        /* FORM ROW FIX */
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+            width: 100%;
+        }
+
+        .form-row > .form-group {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .form-row {
+                flex-direction: row;
+            }
+
+            .form-row > .form-group {
+                width: 50%;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #0f172a;
+            color: var(--text-main);
+            font-size: 15px;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 36px;
+            height: 48px;
+        }
+
+        input[type="date"],
+        input[type="time"] {
+            height: 48px;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #6366f1;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: white;
+        }
+
+        .alert {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .alert-success { background: #064e3b; }
+        .alert-error { background: #7f1d1d; }
+
+        /* iOS zoom fix */
+        @media (max-width: 480px) {
+            input, select {
+                font-size: 16px;
+            }
+        }
+
+        /* Loader */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+
+        #global-loader.show {
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    {% if user.is_authenticated %}
+    <div style="display:flex; justify-content: space-between; margin-bottom: 20px;">
+        <span>Welcome, {{ user.username }}</span>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-secondary" style="width:auto;">Logout</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<div id="global-loader">
+    <div style="color:white;">Processing...</div>
+</div>
+
+<script>
+document.querySelectorAll("form").forEach(f => {
+    f.addEventListener("submit", () => {
+        document.getElementById("global-loader").classList.add("show");
+    });
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
