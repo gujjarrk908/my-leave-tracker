@@ -26,25 +26,18 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            min-height: 100vh;
         }
 
         .container {
             max-width: 900px;
             margin: 40px auto;
             padding: 20px;
-            width: 100%;
         }
 
         header {
@@ -178,19 +171,18 @@
 
         .form-row {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.25rem;
             margin-bottom: 1.25rem;
         }
 
-        .form-row > .form-group {
-            margin-bottom: 0; 
-        }
-
-        /* Only place side-by-side on Tablets and Desktop */
-        @media (min-width: 768px) {
+        @media (max-width: 500px) {
             .form-row {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .form-row > .form-group {
+                margin-bottom: 1.25rem;
             }
         }
 
@@ -207,8 +199,6 @@
         select,
         textarea {
             width: 100%;
-            max-width: 100%;
-            min-width: 0;
             padding: 12px 16px;
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -219,7 +209,6 @@
             line-height: 1.5;
             display: block;
             transition: var(--transition);
-            box-sizing: border-box;
         }
 
         /* Upgrade native select with a custom spaced arrow */
@@ -269,9 +258,6 @@
             max-width: 500px;
             margin: 0 auto;
             width: 100%;
-            padding-left: 10px;
-            padding-right: 10px;
-            box-sizing: border-box;
         }
 
         /* Utilities */
@@ -373,13 +359,6 @@
         @media (max-width: 480px) {
             .summary-grid {
                 grid-template-columns: 1fr;
-            }
-            .form-container {
-                padding-left: 5px;
-                padding-right: 5px;
-            }
-            .card {
-                padding: 20px 15px;
             }
         }
 

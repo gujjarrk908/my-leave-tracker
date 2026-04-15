@@ -1,11 +1,9 @@
 {% extends 'leaves/base.html' %}
 
 {% block content %}
-<div class="card form-container">
-    <h2 class="text-center mb-6 font-bold"
-        style="font-size: 1.5rem; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-        Login to Leave Tracker
-    </h2>
+<div class="form-container" style="margin-top: 60px;">
+    <div class="card">
+        <h2 class="text-center" style="margin-top: 0; margin-bottom: 24px;">Login to Leave Tracker</h2>
         
         {% if form.errors %}
         <div class="alert alert-error">
