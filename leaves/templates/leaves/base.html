@@ -176,9 +176,17 @@
 
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); /* 🔥 key fix */
+            grid-template-columns: 1fr; /* mobile first */
             gap: 1.25rem;
             margin-bottom: 1.25rem;
+        }
+        .form-row > .form-group {
+            min-width: 0;
+        }
+        @media (min-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 500px) {
@@ -234,7 +242,7 @@
 
         input[type="date"],
         input[type="time"] {
-            height: 48px; /* Fixed height to match select */
+            height: auto; /* Fixed height to match select */
         }
 
         textarea {
@@ -420,7 +428,7 @@
     </style>
 </head>
 
-<body style="border:5px solid red;">
+<body>
     <div class="container">
         {% if user.is_authenticated %}
         <div style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
