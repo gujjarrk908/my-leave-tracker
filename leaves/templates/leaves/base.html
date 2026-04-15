@@ -177,22 +177,20 @@
         }
 
         .form-row {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 1.25rem;
             margin-bottom: 1.25rem;
         }
 
         .form-row > .form-group {
-            margin-bottom: 0; /* Remove bottom margin inside flex container because gap handles it */
-            flex: 1;
-            min-width: 250px; /* Force wrap if container is too small to fit both side-by-side safely */
+            margin-bottom: 0; 
         }
 
-        /* Only place them side-by-side if there is plenty of room */
-        @media (min-width: 600px) {
+        /* Only place side-by-side on Tablets and Desktop */
+        @media (min-width: 768px) {
             .form-row {
-                flex-direction: row;
+                grid-template-columns: 1fr 1fr;
             }
         }
 
