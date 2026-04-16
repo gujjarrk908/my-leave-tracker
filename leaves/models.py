@@ -89,6 +89,9 @@ def get_leave_summary():
     late_logins = [l for l in logins_this_month if l.login_time > time(10, 30)]
     late_count = len(late_logins)
     
+    # Current day login
+    today_login = OfficeLogin.objects.filter(date=today).first()
+    
     return {
         'accrued': accrued,
         'used': used_days,
@@ -97,7 +100,8 @@ def get_leave_summary():
         'history': leaves.order_by('-start_date'),
         'late_count': late_count,
         'logins_remaining': max(0, 4 - late_count),
-        'is_danger': late_count >= 4
+        'is_danger': late_count >= 4,
+        'today_login': today_login
     }
 
 class UserSession(models.Model):

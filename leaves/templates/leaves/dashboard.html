@@ -33,6 +33,41 @@
     </div>
 </div>
 
+{% if summary.today_login %}
+<div class="mb-10">
+    <div class="card p-6 border-indigo-500/20 bg-indigo-500/5 relative overflow-hidden group">
+        <!-- Accent glow -->
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full group-hover:bg-indigo-500/20 transition-all duration-700"></div>
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-0.5">Today's Attendance</p>
+                    <h3 class="text-lg font-bold text-slate-100">
+                        Logged in at <span class="bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded text-base">{{ summary.today_login.login_time|time:'h:i A' }}</span>
+                    </h3>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-slate-900/40 px-6 py-3.5 rounded-2xl border border-slate-700/50 shadow-xl backdrop-blur-sm">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">Expected Log-off</p>
+                    <p class="text-2xl font-black text-emerald-400 tracking-tight italic drop-shadow-[0_0_10px_rgba(52,211,153,0.2)]">
+                        {{ summary.today_login.expected_logoff|time:'h:i A' }}
+                    </p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div class="flex justify-between items-center mb-6">
     <h3 class="text-lg font-semibold text-slate-200">Office Logins <span class="text-sm font-normal text-muted ml-2">(Monthly)</span></h3>
     <a href="{% url 'login_history' %}" class="text-indigo-400 hover:text-indigo-300 text-sm font-semibold flex items-center gap-1 group">
